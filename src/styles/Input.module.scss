@@ -1,0 +1,61 @@
+/* form starting stylings ------------------------------- */
+$label-x-padding: 10px;
+$border-radius-1: 10px;
+$border-radius-2: 5px;
+@use "sass:math";
+.group {
+  position: relative;
+  input {
+    color: #fff;
+    background: #757391;
+    font-size: 1.5rem;
+    padding: 10px 10px 10px 10px;
+    display: block;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  /* LABEL ======================================= */
+  label {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+
+  /* active state */
+  input:focus ~ label,
+  input:valid ~ label {
+    top: -10px;
+    font-size: 1rem;
+    color: #ffffff;
+  }
+
+  &:first-of-type {
+    input {
+      border-radius: $border-radius-1 $border-radius-2 $border-radius-2
+        $border-radius-1;
+      text-align: end;
+    }
+    label {
+      right: $label-x-padding;
+    }
+  }
+  &:last-of-type {
+    input {
+      border-radius: $border-radius-2 $border-radius-1 $border-radius-1
+        $border-radius-2;
+    }
+    label {
+      left: $label-x-padding;
+    }
+  }
+}
