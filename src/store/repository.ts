@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppDispatch, RootState } from ".";
 
-type FormChangeAction = { key: string; value: string | number };
+type FormChangeAction = { key: string; value?: string | number };
 const initialState = {
   owner: "",
   repository: "",
@@ -51,7 +51,8 @@ export const selectFormData = (state: RootState) => ({
   owner: state.repo.owner,
   repository: state.repo.repository,
 });
-
+export const selectStoreIsEmpty = (state: RootState) =>
+  state.repo.owner.length === 0;
 //Actions
 export const handleFormChange = (data: FormChangeAction) => (dispatch: any) => {
   dispatch(formChange(data));
