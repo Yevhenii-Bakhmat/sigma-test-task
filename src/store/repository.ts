@@ -51,8 +51,15 @@ export const selectFormData = (state: RootState) => ({
   owner: state.repo.owner,
   repository: state.repo.repository,
 });
+
 export const selectStoreIsEmpty = (state: RootState) =>
   state.repo.owner.length === 0;
+
+export const selectIssueCount = (state: RootState) =>
+  state.repo.data.issueCount;
+
+export const selectIssues = (state: RootState) => state.repo.data.issues;
+
 //Actions
 export const handleFormChange = (data: FormChangeAction) => (dispatch: any) => {
   dispatch(formChange(data));
