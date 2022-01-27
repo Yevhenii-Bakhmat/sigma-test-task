@@ -1,15 +1,10 @@
 export class Issue {
   title: string;
-  labels: string | [];
-  assignee: string | [] | null;
+  labels: [];
+  assignee: [] | null;
   commentsCount: number;
 
-  constructor(
-    title: string,
-    labels: string,
-    assignee: string,
-    commentsCount: number
-  ) {
+  constructor(title: string, labels: [], assignee: [], commentsCount: number) {
     this.title = title;
     this.labels = labels;
     this.assignee = assignee;

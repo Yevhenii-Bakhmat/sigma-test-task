@@ -26,7 +26,9 @@ const Table: FC<Props> = ({ className }) => {
           <th className={thStyle}>Title</th>
           <th className={`${thStyle} w-[5%]`}>Label</th>
           <th className={`${thStyle} w-[5%]`}>Assignee</th>
-          <th className={`${thStyle} w-[5%]`}>Comments</th>
+          <th className={`${thStyle} w-[2%]`}>
+            <i className="far fa-comment text-white" />
+          </th>
         </tr>
       </thead>
       <tbody className="overflow-y-auto">

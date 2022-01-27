@@ -66,28 +66,34 @@ export const handleFormChange = (data: FormChangeAction) => (dispatch: any) => {
   dispatch(formChange(data));
 };
 
-export const getRepoInfoAsync = () => async (dispatch: any, getStore: any) => {
-  dispatch(fetchRepoInfo());
-  const { owner, repository } = getStore().repo;
-  axios
-    .get(`http://api.github.com/repos/${owner}/${repository}/issues`)
-    .then((response) => {
-      const data: Array<any> = response.data;
-      const issues = data.map(
-        (issue: any) =>
-          new Issue(issue.title, issue.labels, issue.assignees, issue.comments)
-      );
+export const getRepoInfoAsync =
+  (query?: string) => async (dispatch: any, getStore: any) => {
+    dispatch(fetchRepoInfo());
+    const { owner, repository } = getStore().repo;
+    axios
+      .get(`http://api.github.com/repos/${owner}/${repository}/issues?${query}`)
+      .then((response) => {
+        const data: Array<any> = response.data;
+        const issues = data.map(
+          (issue: any) =>
+            new Issue(
+              issue.title,
+              issue.labels,
+              issue.assignees,
+              issue.comments
+            )
+        );
 
-      const newData = {
-        issues: issues,
-        issueCount: issues.length,
-      };
-      dispatch(fetchRepoInfoResolve(newData));
-    })
-    .catch((error) => {
-      dispatch(fetchRepoInfoReject(error));
-    });
-};
+        const newData = {
+          issues: issues,
+          issueCount: issues.length,
+        };
+        dispatch(fetchRepoInfoResolve(newData));
+      })
+      .catch((error) => {
+        dispatch(fetchRepoInfoReject(error));
+      });
+  };
 
 export const {
   formChange,
