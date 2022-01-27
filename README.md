@@ -14,6 +14,7 @@ Building this app I've spent about 10 hours.
 - There is only 100 issues. To fix it, the app should recursively open next issue list "chunk" and cache it's info.
 - App only supports English. Yet.
 - App is not 100% responsive
+- Redux throws error about non-serializable object even tho its type is Object or Issue
 
 ## Task
 
