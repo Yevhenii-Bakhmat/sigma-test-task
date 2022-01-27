@@ -3,11 +3,9 @@ import axios from "axios";
 import { AppDispatch, RootState } from ".";
 import { Issue } from "../models/Issue";
 import _ from "lodash";
+import { SortDirection } from "../models/SortDirections";
 type FormChangeAction = { key: string; value?: string | number };
-enum SortDirection {
-  ASC = "asc",
-  DESC = "desc",
-}
+
 type StateType = {
   owner: string;
   repository: string;
@@ -15,6 +13,7 @@ type StateType = {
     issueCount: number;
     issues: Array<Issue>;
     sortDirection: SortDirection;
+    sortField: string;
   };
   isLoading: boolean;
   error: null | any;
@@ -25,7 +24,8 @@ const initialState: StateType = {
   data: {
     issueCount: 0,
     issues: [],
-    sortDirection: SortDirection.DESC,
+    sortDirection: SortDirection.ASC,
+    sortField: "id",
   },
   isLoading: false,
   error: null,
@@ -48,7 +48,7 @@ const repository = createSlice({
     fetchRepoInfoResolve: (state, action) => ({
       ...state,
       isLoading: false,
-      data: { ...action.payload, sortDirection: SortDirection.DESC },
+      data: { ...state.data, ...action.payload },
     }),
 
     fetchRepoInfoReject: (state, action) => ({
@@ -57,7 +57,7 @@ const repository = createSlice({
       data: initialState.data,
       error: action.payload,
     }),
-    sortRepoInfo: (state, action: PayloadAction<string | Function>) => {
+    sortRepoInfo: (state, action: PayloadAction<string>) => {
       const currentState = {
         ...state,
         data: {
@@ -81,6 +81,7 @@ const repository = createSlice({
           ...currentState.data,
           issues: sortedIssues,
           sortDirection: newSortDirection,
+          sortField: action.payload,
         },
       };
     },
@@ -98,6 +99,11 @@ export const selectStoreIsEmpty = (state: RootState) =>
 
 export const selectIssueCount = (state: RootState) =>
   state.repo.data.issueCount;
+
+export const selectSortInfo = (state: RootState) => ({
+  direction: state.repo.data.sortDirection,
+  field: state.repo.data.sortField,
+});
 
 export const selectIssues = (state: RootState) => state.repo.data.issues;
 

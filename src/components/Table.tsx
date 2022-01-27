@@ -7,6 +7,7 @@ import {
   selectIssueCount,
   selectIssues,
 } from "../store/repository";
+import SortingArrow from "./SortingArrow";
 import TableRow from "./TableRow";
 
 type Props = {
@@ -35,9 +36,12 @@ const Table: FC<Props> = ({ className }) => {
             className={`${thStyle} w-[3%]`}
             onClick={handleHeaderClick}
             id="id"
-          ></th>
+          >
+            <SortingArrow column="id" />
+          </th>
           <th className={thStyle} onClick={handleHeaderClick} id="title">
             Title
+            <SortingArrow column="title" />
           </th>
           <th
             className={`${thStyle} w-[5%]`}
@@ -45,13 +49,15 @@ const Table: FC<Props> = ({ className }) => {
             id="labels"
           >
             Labels
+            <SortingArrow column="labels" />
           </th>
           <th
-            className={`${thStyle} w-[5%]`}
+            className={`${thStyle} w-[8%]`}
             onClick={handleHeaderClick}
             id="assignee"
           >
             Assignee
+            <SortingArrow column="assignee" />
           </th>
           <th className={`${thStyle} w-[2%]`}>
             <i className="far fa-comment text-white" />
