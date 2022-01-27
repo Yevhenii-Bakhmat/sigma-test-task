@@ -148,7 +148,9 @@ export const getRepoInfoAsync =
               issue.title,
               issue.labels,
               issue.assignees,
-              issue.comments
+              issue.comments,
+              issue.state,
+              issue.body
             )
         );
 
