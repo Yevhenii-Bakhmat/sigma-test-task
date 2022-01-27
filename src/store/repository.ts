@@ -57,7 +57,7 @@ const repository = createSlice({
       data: initialState.data,
       error: action.payload,
     }),
-    sortRepoInfo: (state, action) => {
+    sortRepoInfo: (state, action: PayloadAction<string | Function>) => {
       const currentState = {
         ...state,
         data: {
@@ -106,15 +106,33 @@ export const handleFormChange =
   (data: FormChangeAction) => (dispatch: AppDispatch) => {
     dispatch(formChange(data));
   };
-export const handleIssueSort = (column?: string) => (dispatch: AppDispatch) => {
-  dispatch(sortRepoInfo(column));
+export const handleIssueSort = (column: string) => (dispatch: AppDispatch) => {
+  let searchField: any;
+  switch (column) {
+    case "assignee": {
+      searchField = "assignee";
+      break;
+    }
+    case "labels": {
+      searchField = "labels";
+      break;
+    }
+    default: {
+      searchField = column;
+      break;
+    }
+  }
+
+  dispatch(sortRepoInfo(searchField));
 };
 export const getRepoInfoAsync =
   (query?: string) => async (dispatch: any, getStore: any) => {
     dispatch(fetchRepoInfo());
     const { owner, repository } = getStore().repo;
     axios
-      .get(`http://api.github.com/repos/${owner}/${repository}/issues?${query}`)
+      .get(
+        `http://api.github.com/repos/${owner}/${repository}/issues?per_page=100&${query}`
+      )
       .then((response) => {
         const data: Array<any> = response.data;
         const issues = data.map(
