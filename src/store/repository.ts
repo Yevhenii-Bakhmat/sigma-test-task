@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppDispatch, RootState } from ".";
+import { Issue } from "../models/Issue";
 
 type FormChangeAction = { key: string; value?: string | number };
 const initialState = {
@@ -71,7 +72,12 @@ export const getRepoInfoAsync = () => async (dispatch: any, getStore: any) => {
   axios
     .get(`http://api.github.com/repos/${owner}/${repository}/issues`)
     .then((response) => {
-      const issues: Array<any> = response.data;
+      const data: Array<any> = response.data;
+      const issues = data.map(
+        (issue: any) =>
+          new Issue(issue.title, issue.labels, issue.assignees, issue.comments)
+      );
+
       const newData = {
         issues: issues,
         issueCount: issues.length,
