@@ -1,10 +1,16 @@
-import React, { FC } from "react";
+import { FC } from "react";
 
 type Props = {
   name: string;
   color: string;
 };
 
+/**
+ *
+ * @param name label/tag name
+ * @param color label/tag background and border color
+ * @returns React component for github issue labels/tags
+ */
 const Label: FC<Props> = ({ name, color }) => {
   return (
     <p

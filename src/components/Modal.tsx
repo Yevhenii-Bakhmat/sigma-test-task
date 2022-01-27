@@ -5,6 +5,10 @@ type Props = {
   onModalClose?: Function;
 };
 
+/**
+ *
+ * @returns React component that uses portals to implement modal/dialogue window
+ */
 const Modal: FC<Props> = ({ children, onModalClose, ...rest }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -12,6 +16,7 @@ const Modal: FC<Props> = ({ children, onModalClose, ...rest }) => {
     onModalClose?.();
   };
 
+  // Function that alowes modal window to be closed by pressing outside of child element
   const handleClickRoot = (event: any) => {
     const rootElement = modalRef.current as HTMLDivElement;
     if (!rootElement.contains(event.target)) {

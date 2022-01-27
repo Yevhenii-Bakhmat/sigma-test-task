@@ -4,23 +4,11 @@ import Label from "./Label";
 import { ReactComponent as IssueSVG } from "../assets/issue.svg";
 import ReactMarkdown from "react-markdown";
 import style from "../styles/InspectIssue.module.scss";
+import StatusIcon from "./StatusIcon";
 type Props = {
   issue: Issue | null;
 };
-const StatusIcon = ({ status }: { status?: string }) => {
-  switch (status) {
-    case "open": {
-      return (
-        <div className="bg-emerald-500 p-3 rounded-2xl place-items-center flex gap-2 text-xl capitalize">
-          <span>{status}</span>
-        </div>
-      );
-    }
-    default: {
-      return <span>{status}</span>;
-    }
-  }
-};
+
 const InspectIssue: FC<Props> = ({ issue }) => {
   return (
     <div className="max-w-[90vw] overflow-y-scroll max-h-[90vh] rounded-2xl shadow-[0px_0px_20px_10px_#3534]">

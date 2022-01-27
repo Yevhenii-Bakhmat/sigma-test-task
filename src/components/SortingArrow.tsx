@@ -5,6 +5,12 @@ import { selectSortInfo } from "../store/repository";
 type Props = {
   column: string;
 };
+
+/**
+ *
+ * @param column string value. Is used to render arrow.
+ * @returns React components that showes sorting order and what column is sorted
+ */
 const SortingArrow: React.FC<Props> = ({ column }) => {
   const { direction, field } = useSelector(selectSortInfo);
 

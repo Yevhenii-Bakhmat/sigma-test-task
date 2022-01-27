@@ -10,6 +10,11 @@ type Props = {
   value?: string | number;
   name: string;
 };
+
+/**
+ *
+ * @returns React component for custom <input> with floating <label>
+ */
 const Input: FC<Props> = ({ label = "label", onChange, value, name }) => (
   <div className={styles["group"]}>
     <input type="text" required onChange={onChange} value={value} name={name} />

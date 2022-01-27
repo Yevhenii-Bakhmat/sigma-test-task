@@ -13,6 +13,10 @@ import {
   selectStoreIsEmpty,
 } from "../store/repository";
 
+/**
+ * route: /:owner/:repository
+ * @returns Page to inspect repository issues
+ */
 const InspectPage = () => {
   const params = useParams();
   const location = useLocation();
@@ -24,13 +28,17 @@ const InspectPage = () => {
     dispatch(changeShown());
   };
 
+  //Load repo data
   useEffect(() => {
-    console.debug(storeIsEmpty);
+    // if user skiped home page
     if (storeIsEmpty) {
+      //get data from URL and save it to redux store
       Object.entries(params).forEach(([key, value]) => {
         dispatch(handleFormChange({ key, value }));
       });
     }
+
+    //get info
     dispatch(getRepoInfoAsync());
   }, [location.pathname]);
   return (

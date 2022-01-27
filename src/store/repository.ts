@@ -31,6 +31,7 @@ const initialState: StateType = {
   error: null,
 };
 
+//Redux store slice for repository info
 const repository = createSlice({
   name: "repo",
   initialState,
@@ -112,6 +113,8 @@ export const handleFormChange =
   (data: FormChangeAction) => (dispatch: AppDispatch) => {
     dispatch(formChange(data));
   };
+
+//Actions that runs when user sorts table
 export const handleIssueSort = (column: string) => (dispatch: AppDispatch) => {
   let searchField: any;
   switch (column) {
@@ -131,10 +134,15 @@ export const handleIssueSort = (column: string) => (dispatch: AppDispatch) => {
 
   dispatch(sortRepoInfo(searchField));
 };
+
+//Action to get information about repository
 export const getRepoInfoAsync =
   (query?: string) => async (dispatch: any, getStore: any) => {
+    //start loading
     dispatch(fetchRepoInfo());
     const { owner, repository } = getStore().repo;
+
+    //rest request info
     axios
       .get(
         `http://api.github.com/repos/${owner}/${repository}/issues?per_page=100&${query}`
@@ -158,9 +166,12 @@ export const getRepoInfoAsync =
           issues: issues,
           issueCount: issues.length,
         };
+
+        //if success - store data
         dispatch(fetchRepoInfoResolve(newData));
       })
       .catch((error) => {
+        //if error - store error
         dispatch(fetchRepoInfoReject(error));
       });
   };

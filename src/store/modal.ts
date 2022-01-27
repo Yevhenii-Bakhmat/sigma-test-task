@@ -11,6 +11,7 @@ const initialState: InitialStateType = {
   data: null,
 };
 
+//Redux store slice for modal window
 const modal = createSlice({
   name: "modal",
   initialState,

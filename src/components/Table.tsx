@@ -1,8 +1,7 @@
-import React, { FC, MouseEvent } from "react";
+import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Issue } from "../models/Issue";
 import {
-  getRepoInfoAsync,
   handleIssueSort,
   selectIssueCount,
   selectIssues,
