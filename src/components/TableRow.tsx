@@ -10,7 +10,7 @@ type Props = {
 };
 
 const TableRow: FC<Props> = ({ issue }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const handleTitleClick = () => {
     dispatch(changeModalData(issue));
     dispatch(changeModalShown());
