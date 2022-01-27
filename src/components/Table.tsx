@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Issue } from "../models/Issue";
 import {
   getRepoInfoAsync,
+  handleIssueSort,
   selectIssueCount,
   selectIssues,
 } from "../store/repository";
@@ -20,7 +21,7 @@ const Table: FC<Props> = ({ className }) => {
     " text-white bg-[#252937] text-left p-4 first:text-center first:border-l-[0] first:rounded-l-lg last:border-r-[0] last:rounded-r-lg border-x-[1px]";
   const handleHeaderClick = (event: any) => {
     const column = event.target.id;
-    // dispatch(getRepoInfoAsync(query));
+    dispatch(handleIssueSort(column));
   };
   return (
     <table
@@ -33,9 +34,11 @@ const Table: FC<Props> = ({ className }) => {
           <th
             className={`${thStyle} w-[3%]`}
             onClick={handleHeaderClick}
-            id="icon"
+            id="id"
           ></th>
-          <th className={thStyle}>Title</th>
+          <th className={thStyle} onClick={handleHeaderClick} id="title">
+            Title
+          </th>
           <th
             className={`${thStyle} w-[5%]`}
             onClick={handleHeaderClick}

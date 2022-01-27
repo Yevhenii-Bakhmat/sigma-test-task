@@ -2,14 +2,30 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppDispatch, RootState } from ".";
 import { Issue } from "../models/Issue";
-
+import _ from "lodash";
 type FormChangeAction = { key: string; value?: string | number };
-const initialState = {
+enum SortDirection {
+  ASC = "asc",
+  DESC = "desc",
+}
+type StateType = {
+  owner: string;
+  repository: string;
+  data: {
+    issueCount: number;
+    issues: Array<Issue>;
+    sortDirection: SortDirection;
+  };
+  isLoading: boolean;
+  error: null | any;
+};
+const initialState: StateType = {
   owner: "",
   repository: "",
   data: {
     issueCount: 0,
     issues: [],
+    sortDirection: SortDirection.DESC,
   },
   isLoading: false,
   error: null,
@@ -32,18 +48,42 @@ const repository = createSlice({
     fetchRepoInfoResolve: (state, action) => ({
       ...state,
       isLoading: false,
-      data: action.payload,
+      data: { ...action.payload, sortDirection: SortDirection.DESC },
     }),
 
     fetchRepoInfoReject: (state, action) => ({
       ...state,
       isLoading: false,
-      data: {
-        issueCount: 0,
-        issues: [],
-      },
+      data: initialState.data,
       error: action.payload,
     }),
+    sortRepoInfo: (state, action) => {
+      const currentState = {
+        ...state,
+        data: {
+          ...state.data,
+          issues: [...state.data.issues],
+        },
+      };
+      const newSortDirection =
+        currentState.data.sortDirection === SortDirection.DESC
+          ? SortDirection.ASC
+          : SortDirection.DESC;
+      const sortedIssues = _.orderBy(
+        currentState.data.issues,
+        [action.payload],
+        [newSortDirection]
+      ) as Array<Issue>;
+
+      return {
+        ...currentState,
+        data: {
+          ...currentState.data,
+          issues: sortedIssues,
+          sortDirection: newSortDirection,
+        },
+      };
+    },
   },
 });
 
@@ -62,10 +102,13 @@ export const selectIssueCount = (state: RootState) =>
 export const selectIssues = (state: RootState) => state.repo.data.issues;
 
 //Actions
-export const handleFormChange = (data: FormChangeAction) => (dispatch: any) => {
-  dispatch(formChange(data));
+export const handleFormChange =
+  (data: FormChangeAction) => (dispatch: AppDispatch) => {
+    dispatch(formChange(data));
+  };
+export const handleIssueSort = (column?: string) => (dispatch: AppDispatch) => {
+  dispatch(sortRepoInfo(column));
 };
-
 export const getRepoInfoAsync =
   (query?: string) => async (dispatch: any, getStore: any) => {
     dispatch(fetchRepoInfo());
@@ -75,8 +118,9 @@ export const getRepoInfoAsync =
       .then((response) => {
         const data: Array<any> = response.data;
         const issues = data.map(
-          (issue: any) =>
+          (issue: any, index: number) =>
             new Issue(
+              index,
               issue.title,
               issue.labels,
               issue.assignees,
@@ -100,6 +144,7 @@ export const {
   fetchRepoInfo,
   fetchRepoInfoResolve,
   fetchRepoInfoReject,
+  sortRepoInfo,
 } = repository.actions;
 
 export default repository.reducer;
