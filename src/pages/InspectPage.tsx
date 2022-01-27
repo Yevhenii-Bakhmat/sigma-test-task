@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import InspectIssue from "../components/InspectIssue";
 import Modal from "../components/Modal";
 import Search from "../components/Search";
@@ -15,7 +15,8 @@ import {
 
 const InspectPage = () => {
   const params = useParams();
-  const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
+  const dispatch = useDispatch();
   const storeIsEmpty = useSelector(selectStoreIsEmpty);
   const isModalOpen = useSelector(selectIsShow);
   const modalData = useSelector(selectData);
@@ -31,7 +32,7 @@ const InspectPage = () => {
       });
     }
     dispatch(getRepoInfoAsync());
-  }, []);
+  }, [location.pathname]);
   return (
     <>
       {isModalOpen ? (
