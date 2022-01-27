@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
-import "./App.css";
 import InspectPage from "./pages/InspectPage";
 
 const App = () => {
