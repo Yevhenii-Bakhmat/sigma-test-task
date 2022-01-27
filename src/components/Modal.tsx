@@ -22,7 +22,7 @@ const Modal: FC<Props> = ({ children, onModalClose, ...rest }) => {
   return ReactDOM.createPortal(
     <div
       onMouseDown={handleClickRoot}
-      className={`absolute inset-0 w-screen h-screen grid place-items-center bg-[#0000003b] overflow-hidden`}
+      className={`absolute inset-0 w-screen h-screen grid place-items-center bg-[#0000009f] overflow-hidden`}
     >
       <div ref={modalRef}>{children}</div>
     </div>,
