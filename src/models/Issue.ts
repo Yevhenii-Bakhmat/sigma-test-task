@@ -1,18 +1,27 @@
 export class Issue {
+  id: number;
   title: string;
-  label: string;
-  assignee: string | null;
+  labels: [];
+  assignee: [] | null;
   commentsCount: number;
+  status: string;
+  body: string;
 
   constructor(
+    id: number,
     title: string,
-    label: string,
-    assignee: string,
-    commentsCount: number
+    labels: [],
+    assignee: [],
+    commentsCount: number,
+    status: string,
+    body: string
   ) {
+    this.id = id;
     this.title = title;
-    this.label = label;
+    this.labels = labels;
     this.assignee = assignee;
     this.commentsCount = commentsCount;
+    this.status = status;
+    this.body = body;
   }
 }
